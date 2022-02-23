@@ -9,28 +9,29 @@ store state which are more robust.
 from tempfile import NamedTemporaryFile
 import csv
 import os
+import sys
 
 
 DONE = " ✅"
 
 
-def list():
+def list(stdout=sys.stdout, filename="tasks.csv"):
     """
     List the current known tasks.
     """
 
-    with open("tasks.csv") as tasks_file:
+    with open(filename) as tasks_file:
         reader = csv.reader(tasks_file)
         for name, completed in reader:
-            print(f"{name}{DONE if completed else ''}")
+            stdout.write(f"{name}{DONE if completed else ''}\n")
 
 
-def create(name):
+def create(name, filename="tasks.csv"):
     """
     Create a new task.
     """
 
-    with open("tasks.csv", "a") as tasks_file:
+    with open(filename, "a") as tasks_file:
         writer = csv.writer(tasks_file)
         writer.writerow([name, False])
 
