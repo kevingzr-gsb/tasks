@@ -1,3 +1,4 @@
+from tempfile import TemporaryFile
 import os
 
 import tasks
@@ -10,11 +11,10 @@ def test_listing_tasks():
 
     tasks.create("Do laundry", filename="tests.csv")
     tasks.create("Clean up", filename="tests.csv")
-    with open("stdout.txt", "w") as stdout:
+    with TemporaryFile("w+") as stdout:
         tasks.list(stdout=stdout, filename="tests.csv")
-    with open("stdout.txt") as stdout:
+        stdout.seek(0)
         contents = stdout.readlines()
-    os.remove("stdout.txt")
     os.remove("tests.csv")
     
     assert contents == ["Do laundry ✅\n", "Clean up ✅\n"]
