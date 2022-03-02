@@ -13,6 +13,8 @@ def test_listing_tasks():
     with open("stdout.txt", "w") as stdout:
         tasks.list(stdout=stdout, filename="tests.csv")
     with open("stdout.txt") as stdout:
-        assert stdout.readlines() == ["Do laundry ✅\n", "Clean up ✅\n"]
-    os.remove("tests.csv")
+        contents = stdout.readlines()
     os.remove("stdout.txt")
+    os.remove("tests.csv")
+    
+    assert contents == ["Do laundry ✅\n", "Clean up ✅\n"]
