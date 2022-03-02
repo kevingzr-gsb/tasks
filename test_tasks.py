@@ -18,3 +18,11 @@ def test_listing_tasks():
     os.remove("tests.csv")
     
     assert contents == ["Do laundry ✅\n", "Clean up ✅\n"]
+    
+    
+def test_listing_no_tasks_does_not_error():
+    with TemporaryFile("w+") as stdout:
+        tasks.list(stdout=stdout, filename="tests.csv")
+        stdout.seek(0)
+        contents = stdout.readlines()
+    assert contents == ["There are no tasks.\n"]

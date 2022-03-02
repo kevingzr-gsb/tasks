@@ -20,10 +20,13 @@ def list(stdout=sys.stdout, filename="tasks.csv"):
     List the current known tasks.
     """
 
-    with open(filename) as tasks_file:
-        reader = csv.reader(tasks_file)
-        for name, completed in reader:
-            stdout.write(f"{name}{DONE if completed else ''}\n")
+    try:
+        with open(filename) as tasks_file:
+            reader = csv.reader(tasks_file)
+            for name, completed in reader:
+                stdout.write(f"{name}{DONE if completed else ''}\n")
+    except FileNotFoundError:
+        stdout.write("There are no tasks.\n")
 
 
 def create(name, filename="tasks.csv"):
